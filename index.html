@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vũ Trụ May Mắn</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Background -->
+    <div class="stars"></div>
+
+    <!-- Nội dung chính -->
+    <div class="container">
+
+        <div class="card">
+
+            <div class="icon">🔮</div>
+
+            <h1>Vũ Trụ May Mắn</h1>
+
+            <p class="subtitle">
+                Hôm nay vũ trụ muốn nói gì với bạn?
+            </p>
+
+            <!-- Điểm may mắn -->
+            <div class="luck-box">
+
+                <p>ĐIỂM MAY MẮN</p>
+
+                <div id="luckNumber">?</div>
+
+                <span>/ 100</span>
+
+            </div>
+
+            <!-- Lời tiên đoán -->
+            <p id="message">
+                Bấm nút bên dưới để khám phá vận may ✨
+            </p>
+
+            <!-- Nút -->
+            <button onclick="discoverLuck()">
+                ✨ KHÁM PHÁ VẬN MAY
+            </button>
+
+            <!-- Số lần bấm -->
+            <p id="counter">
+                Bạn chưa khám phá lần nào.
+            </p>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
