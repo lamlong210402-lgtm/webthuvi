@@ -1,66 +1,141 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Vũ Trụ May Mắn</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PBL HUB - Team Command Center</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <!-- Mobile menu button -->
+<button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Mo menu">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
 
-    <!-- Background -->
-    <div class="stars"></div>
+<!-- Mobile overlay -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand"><span>🚀</span><div><b>PBL HUB</b><small>Team Command Center</small></div></div>
+      <nav>
+        <button class="nav-btn active" data-page="dashboard">🏠 <span>Tổng quan</span></button>
+        <button class="nav-btn" data-page="tasks">📋 <span>Công việc</span></button>
+        <button class="nav-btn" data-page="notes">📝 <span>Notes</span></button>
+        <button class="nav-btn" data-page="wheel">🎡 <span>Vòng quay</span></button>
+        <button class="nav-btn" data-page="members">👥 <span>Thành viên</span></button>
+        <button class="nav-btn" data-page="timeline">📅 <span>Timeline</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <button id="themeBtn" class="ghost-btn">🌙 Đổi giao diện</button>
+        <div class="mini-tip">💡 Làm PBL vui hơn một chút cũng được.</div>
+      </div>
+    </aside>
 
-    <!-- Nội dung chính -->
-    <div class="container">
-
-        <div class="card">
-
-            <div class="icon">🔮</div>
-
-            <h1>Vũ Trụ May Mắn</h1>
-
-            <p class="subtitle">
-                Hôm nay vũ trụ muốn nói gì với bạn?
-            </p>
-
-            <!-- Điểm may mắn -->
-            <div class="luck-box">
-
-                <p>ĐIỂM MAY MẮN</p>
-
-                <div id="luckNumber">?</div>
-
-                <span>/ 100</span>
-
-            </div>
-
-            <!-- Lời tiên đoán -->
-            <p id="message">
-                Bấm nút bên dưới để khám phá vận may ✨
-            </p>
-
-            <!-- Nút -->
-            <button onclick="discoverLuck()">
-                ✨ KHÁM PHÁ VẬN MAY
-            </button>
-
-            <!-- Số lần bấm -->
-            <p id="counter">
-                Bạn chưa khám phá lần nào.
-            </p>
-
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">PROJECT / PBL</p>
+          <h1>Điều khiển & giám sát từ xa 2 động cơ</h1>
         </div>
+        <div class="top-actions"><span id="today"></span><span class="status-dot">● Team online</span></div>
+      </header>
 
+      <section id="dashboard" class="page active">
+        <div class="hero">
+          <div><span class="pill">WEEK <span id="weekNo">04</span></span><h2>Xin chào, team 👋</h2><p>Quản lý việc, note ý tưởng và để vòng quay quyết định số phận.</p></div>
+          <button class="primary" onclick="openTaskModal()">＋ Thêm công việc</button>
+        </div>
+        <div class="stats">
+          <div class="stat"><span>📋 Tổng việc</span><b id="statTotal">0</b></div>
+          <div class="stat"><span>✅ Hoàn thành</span><b id="statDone">0</b></div>
+          <div class="stat"><span>🔥 Đang làm</span><b id="statDoing">0</b></div>
+          <div class="stat"><span>⚠️ Sắp deadline</span><b id="statDue">0</b></div>
+        </div>
+        <div class="grid-2">
+          <div class="panel">
+            <div class="panel-head"><div><h3>Tiến độ PBL</h3><p id="progressText">0 / 0 công việc</p></div><b id="progressPercent">0%</b></div>
+            <div class="progress"><span id="progressBar"></span></div>
+            <div class="quick-members" id="dashboardMembers"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div><h3>🔥 Việc gần nhất</h3><p>Ưu tiên những việc đang chờ</p></div><button class="link-btn" onclick="showPage('tasks')">Xem tất cả →</button></div>
+            <div id="recentTasks"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><h3>😂 PBL Quote</h3><p>Châm ngôn sinh tồn của team</p></div><button class="link-btn" onclick="newQuote()">Đổi câu</button></div>
+          <div class="quote" id="quote">"Để tối tao làm."</div>
+        </div>
+      </section>
+
+      <section id="tasks" class="page">
+        <div class="page-title"><div><p class="eyebrow">TASK MANAGER</p><h2>Công việc</h2></div><button class="primary" onclick="openTaskModal()">＋ Thêm việc</button></div>
+        <div class="filters">
+          <button class="filter active" data-filter="all">Tất cả</button>
+          <button class="filter" data-filter="doing">Đang làm</button>
+          <button class="filter" data-filter="done">Hoàn thành</button>
+        </div>
+        <div id="taskList" class="task-grid"></div>
+      </section>
+
+      <section id="notes" class="page">
+        <div class="page-title"><div><p class="eyebrow">IDEA BOARD</p><h2>Notes</h2></div><button class="primary" onclick="openNoteModal()">＋ Thêm note</button></div>
+        <div class="note-filters">
+          <button class="filter active" data-note-filter="all">Tất cả</button>
+          <button class="filter" data-note-filter="idea">💡 Ý tưởng</button>
+          <button class="filter" data-note-filter="question">❓ Câu hỏi</button>
+          <button class="filter" data-note-filter="important">📌 Quan trọng</button>
+        </div>
+        <div id="noteList" class="note-grid"></div>
+      </section>
+
+      <section id="wheel" class="page">
+        <div class="page-title"><div><p class="eyebrow">RANDOM ASSIGNMENT</p><h2>🎡 Vòng quay phân công</h2></div></div>
+        <div class="wheel-layout">
+          <div class="wheel-panel">
+            <div class="wheel-wrap">
+              <canvas id="wheelCanvas" width="500" height="500"></canvas>
+              <div class="wheel-pointer">▼</div>
+              <div class="wheel-center">🎯</div>
+            </div>
+            <div class="wheel-controls">
+              <input id="wheelTask" placeholder="Nhập việc cần phân công..." />
+              <button class="primary spin-btn" onclick="spinWheel()">🎡 QUAY!!!</button>
+            </div>
+            <div class="selected-members" id="selectedMembers"></div>
+          </div>
+          <div class="panel wheel-history"><div class="panel-head"><div><h3>Lịch sử vòng quay</h3><p>Ai đã bị chọn gần đây?</p></div></div><div id="spinHistory"></div></div>
+        </div>
+      </section>
+
+      <section id="members" class="page">
+        <div class="page-title"><div><p class="eyebrow">TEAM</p><h2>Thành viên</h2></div></div>
+        <div id="memberGrid" class="member-grid"></div>
+      </section>
+
+      <section id="timeline" class="page">
+        <div class="page-title"><div><p class="eyebrow">PROJECT ROADMAP</p><h2>Timeline PBL</h2></div></div>
+        <div class="timeline">
+          <div class="time-item done"><b>Tuần 1</b><span>Tìm hiểu đề tài</span></div>
+          <div class="time-item done"><b>Tuần 2</b><span>Xác định chức năng hệ thống</span></div>
+          <div class="time-item active"><b>Tuần 3</b><span>Sơ đồ tư duy & nhận xét của thầy</span></div>
+          <div class="time-item"><b>Tuần 4</b><span>Tìm hiểu phương pháp đồng bộ 2 động cơ</span></div>
+          <div class="time-item"><b>Tuần 5</b><span>Thiết kế giải pháp</span></div>
+          <div class="time-item"><b>Tuần 6+</b><span>Triển khai, kiểm thử & báo cáo</span></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <div id="modalContent"></div>
     </div>
-
-    <script src="script.js"></script>
-
+  </div>
+  <div id="toast"></div>
+  <script src="script.js"></script>
 </body>
-
 </html>
